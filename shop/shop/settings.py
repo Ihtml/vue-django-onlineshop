@@ -41,10 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'DjangoUeditor',
-    'goods',
-    'trade',
-    'user_operation',
-    'crispy_form',
+    'goods.apps.GoodsConfig',
+    'trade.apps.TradeConfig',
+    'user_operation.apps.UserOperationConfig',
+    'crispy_forms',
     'xadmin',
 
 ]
