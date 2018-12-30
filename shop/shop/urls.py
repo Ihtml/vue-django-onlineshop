@@ -30,5 +30,5 @@ urlpatterns = [
     # 商品列表页
     url(r'goods/$', GoodsListView.as_view(), name="goods-list"),
     url(r'docs/', include_docs_urls(title='电商网'), name="goods-list"),
-    url(r'^api-auth/', include('rest_framework.urls'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
