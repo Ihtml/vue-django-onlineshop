@@ -19,16 +19,22 @@ import xadmin
 from shop.settings import MEDIA_ROOT
 from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
+from rest_framework.routers import DefaultRouter
+from goods.views import GoodsListViewset
 
-from goods.views import GoodsListView
+router = DefaultRouter()
+
+# 配置goods的URL
+router.register(r'goods', GoodsListViewset)
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     url(r'^xadmin/', xadmin.site.urls),
     url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
 
-    # 商品列表页
-    url(r'goods/$', GoodsListView.as_view(), name="goods-list"),
+    # # 商品列表页
+    # url(r'goods/$', goods_list, name="goods-list"),
+    url(r'^', include(router.urls)),
     url(r'docs/', include_docs_urls(title='电商网'), name="goods-list"),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

@@ -6,6 +6,7 @@ from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 
+from rest_framework import viewsets
 from .models import Goods
 
 
@@ -18,7 +19,7 @@ class GoodsPagination(PageNumberPagination):
 
 
 # GenericAPIView 继承自views.APIView，并进行了一层封装
-class GoodsListView(generics.ListAPIView):
+class GoodsListViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
     """
     商品列表页
     """
