@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'xadmin',
     'rest_framework',
-
+    'django_filters',
 ]
 
 MIDDLEWARE = [

@@ -25,7 +25,7 @@ from goods.views import GoodsListViewset
 router = DefaultRouter()
 
 # 配置goods的URL
-router.register(r'goods', GoodsListViewset)
+router.register(r'goods', GoodsListViewset, base_name="goods")
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
