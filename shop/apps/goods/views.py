@@ -24,19 +24,12 @@ class GoodsPagination(PageNumberPagination):
 # GenericAPIView 继承自views.APIView，并进行了一层封装
 class GoodsListViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
     """
-    商品列表页
+    商品列表页, 分页， 搜索， 过滤， 排序
     """
     queryset = Goods.objects.all()
     pagination_class = GoodsPagination
     serializer_class = GoodsSerializer
-    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     filter_class = GoodsFilter
     search_fields = ('name', 'goods_brief', 'goods_desc')
-
-    # def get_queryset(self):
-    #     queryset = Goods.objects.all()
-    #     # price_min为前端的请求参数，默认为0
-    #     price_min = self.request.query_params.get('price_min', 0)
-    #     if price_min:
-    #         queryset = queryset.filter(shop_price__gt=int(price_min))
-    #     return queryset
+    ordering_fields = ('sold_num', 'add_time')
