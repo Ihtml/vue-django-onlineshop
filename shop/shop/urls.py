@@ -20,12 +20,15 @@ from shop.settings import MEDIA_ROOT
 from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
-from goods.views import GoodsListViewset
+from goods.views import GoodsListViewset, CategoryViewset
 
 router = DefaultRouter()
 
 # 配置goods的URL
 router.register(r'goods', GoodsListViewset, base_name="goods")
+
+# 配置category的URL
+router.register(r'categorys', CategoryViewset, base_name="categorys")
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
