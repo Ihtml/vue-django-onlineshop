@@ -6,7 +6,24 @@ from rest_framework import serializers
 from goods.models import Goods, GoodsCategory
 
 
+class CategorySerializer3(serializers.ModelSerializer):
+    class Meta:
+        model = GoodsCategory
+        fields = '__all__'
+
+
+class CategorySerializer2(serializers.ModelSerializer):
+    sub_cat = CategorySerializer3(many=True)
+
+    class Meta:
+        model = GoodsCategory
+        fields = '__all__'
+
+
 class CategorySerializer(serializers.ModelSerializer):
+    # many=True表示会有多个
+    sub_cat = CategorySerializer2(many=True)
+
     class Meta:
         model = GoodsCategory
         fields = '__all__'
