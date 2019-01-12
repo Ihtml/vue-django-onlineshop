@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="c-box bg-box" >
-      <div class="login-box clearfix"style="margin-top:10px">
+      <div class="login-box clearfix" style="margin-top:10px">
         <div class="fr form-box">
           <h2>帐号登录</h2>
           <form id="jsLoginForm" autocomplete="off">
