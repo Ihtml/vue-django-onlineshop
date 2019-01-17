@@ -71,12 +71,12 @@
                     </a>
                     <div class="main_cata" id="J_mainCata" v-show="showAllmenu">
                         <ul>
-                            <li class="first" v-for="(item,index) in allMenuLabel" :key="item" @mouseover="overChildrenmenu(index)" @mouseout="outChildrenmenu(index)">
+                            <li class="first" v-for="(item,index) in allMenuLabel" @mouseover="overChildrenmenu(index)" @mouseout="outChildrenmenu(index)">
                               <h3 style="background:url(../images/1449088788518670880.png) 20px center no-repeat;">
                                 <router-link :to="'/app/home/list/'+item.id">{{item.name}}</router-link> </h3>
                                 <div class="J_subCata" id="J_subCata" v-show="showChildrenMenu ===index"  style=" left: 215px; top: 0px;">
                                     <div class="J_subView" >
-                                      <div v-for="list in item.sub_cat" :key="list">
+                                      <div v-for="list in item.sub_cat">
                                         <dl>
                                           <dt>
                                             <router-link :to="'/app/home/list/'+list.id">{{list.name}}</router-link>
@@ -100,7 +100,7 @@
                     <router-link to="/app/home/index">首页</router-link>
                 </li>
                 <template v-for="(item,index) in allMenuLabel">
-                  <li :key="index">
+                  <li>
                     <div v-if="item.is_tab">
                       <router-link :to="'/app/home/list/'+item.id" >{{item.name}}</router-link>
                     </div>
@@ -115,7 +115,7 @@
                     <em class="num" id="hd_cartnum" style="visibility: visible;">{{goods_list.goods_list.length}}</em></router-link>
                         <div class="list" v-show="showShopCar">
                             <div class="data">
-                               <dl v-for="(item,index) in goods_list.goods_list" :key="item">
+                               <dl v-for="(item,index) in goods_list.goods_list">
                                 <dt><router-link :to="'/app/home/productDetail/'+item.goods.id" target = _blank><img :src="item.goods.goods_front_image"></router-link></dt>
                                 <dd>
                                   <h4><router-link :to="'/app/home/productDetail/'+item.goods.id" target = _blank>{{item.goods.name}}</router-link></h4>

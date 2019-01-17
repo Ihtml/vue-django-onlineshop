@@ -10,7 +10,7 @@
                 <router-link to="/app/home/list/more" target = _blank><a  class="fr c666">更多&gt;&gt;</a></router-link>
             </h2>
             <ul class="newgoods_fastbuy">
-                <li class="prolist-cent clearfix have_num" v-for="item in newopro" :key=item.id>
+                <li class="prolist-cent clearfix have_num" v-for="item in newopro" :key="item">
                     <div class="prolist-l fl">
                     <router-link :to="'/app/home/list/'+item.id"  target = _blank> <a  :title="item.name" class="imgBox">
                     <img :src="item.goods_front_image" style="height: 158px;width: 158px;" class="zom" :alt="item.name">
@@ -30,6 +30,10 @@
             </ul>
         </div>
     </div>
+</div>
+
+</div>
+
 </template>
 <script>
   import { getGoods } from '../../api/api';
