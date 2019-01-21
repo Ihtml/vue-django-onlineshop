@@ -15,9 +15,9 @@ from .serializers import GoodsSerializer, CategorySerializer
 
 # 定制化分页
 class GoodsPagination(PageNumberPagination):
-    page_size = 10
+    page_size = 12
     page_size_query_param = 'page_size'
-    page_query_param = 'p' # 默认为 "next": "http://localhost:8000/goods/?page=2",
+    page_query_param = 'page' # 默认为 "next": "http://localhost:8000/goods/?page=2",
     max_page_size = 100
 
 
@@ -32,7 +32,7 @@ class GoodsListViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     filter_class = GoodsFilter
     search_fields = ('name', 'goods_brief', 'goods_desc')
-    ordering_fields = ('sold_num', 'add_time')
+    ordering_fields = ('sold_num', 'shop_price')
 
 
 # RetrieveModelMixin 获取详情
