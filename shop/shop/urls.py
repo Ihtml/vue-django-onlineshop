@@ -21,6 +21,7 @@ from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from goods.views import GoodsListViewset, CategoryViewset
+from rest_framework.authtoken import views
 
 router = DefaultRouter()
 
@@ -40,4 +41,6 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'docs/', include_docs_urls(title='电商网'), name="goods-list"),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # url(r'^auth/', include('rest_framework.urls'))
+    url(r'^api-token-auth/', views.obtain_auth_token),
 ]
