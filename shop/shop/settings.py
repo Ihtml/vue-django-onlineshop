@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import sys
+import datetime
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, BASE_DIR, )
@@ -134,6 +136,10 @@ USE_L10N = True
 USE_TZ = False  # 默认是Ture，时间是utc时间，由于我们要用本地时间，所用手动修改为false！
 
 
+AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
+)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
@@ -154,4 +160,12 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.TokenAuthentication',
     ),
+}
+
+JWT_AUTH = {
+    # 设置过期时间
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    # HTTP的prefix
+    # 'JWT_AUTH_HEADER_PREFIX': 'TOKEN',
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
 }
