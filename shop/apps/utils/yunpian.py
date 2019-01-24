@@ -25,5 +25,6 @@ class YunPian(object):
 
 
 if __name__ == "__main__":
+    # key
     yun_pian = YunPian("")
     yun_pian.send_sms("2019", "")
