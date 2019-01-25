@@ -45,7 +45,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def validate_code(self, code):
         # 在ModelSerializer中, self.initial_data为用户前端传进来的值, 这里username等价于mobile
-        verify_recodes = VerifyCode.objects.filter(mobile=self.initial_data['username']).order_by("add_time")
+        verify_recodes = VerifyCode.objects.filter(mobile=self.initial_data['username']).order_by("-add_time")
         if verify_recodes:
             last_records = verify_recodes[0]
             five_mintes_ago = datetime.now() - timedelta(hours=0, minutes=5, seconds=0)
@@ -57,6 +57,13 @@ class UserSerializer(serializers.ModelSerializer):
 
         else:
             raise serializers.ValidationError("验证码错误")
+
+    def validate(self, attrs):
+        # 不需要前端传mobile，后端设置
+        attrs["mobile"] = attrs["username"]
+        # user model里并没有code字段, 所以删掉
+        del attrs["code"]
+        return attrs
 
     class Meta:
         model = User
