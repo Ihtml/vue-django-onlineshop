@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from rest_framework.mixins import CreateModelMixin
 from rest_framework import viewsets
-from .serializers import SmsSerializer
+from .serializers import SmsSerializer, UserRegSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from random import choice
@@ -81,5 +81,10 @@ class SmsCodeViewset(CreateModelMixin, viewsets.GenericViewSet):
             }, status=status.HTTP_201_CREATED)
 
 
+class UserViewset(CreateModelMixin, viewsets.GenericViewSet):
+    """
+    用户注册
+    """
+    serializer_class = UserRegSerializer
 
 

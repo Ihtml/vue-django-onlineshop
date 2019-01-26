@@ -43,6 +43,7 @@ class SmsSerializer(serializers.Serializer):
 
 class UserRegSerializer(serializers.ModelSerializer):
     # code验证码是多余字段， 不会保存到数据库中
+    # write_only设置为 True 可确保在更新或创建实例时可以使用该字段，但在序列化表示时不包括该字段
     code = serializers.CharField(required=True, write_only=True, max_length=4, min_length=4,label='验证码', help_text='验证码',
                                  error_messages={
                                     "blank": "验证码不能为空",
@@ -54,13 +55,24 @@ class UserRegSerializer(serializers.ModelSerializer):
     username = serializers.CharField(label='用户名', help_text='用户名', required=True, allow_blank=False,
                                      validators=[UniqueValidator(queryset=User.objects.all(), message='用户已存在')])
 
+    password = serializers.CharField(
+        style={'input_type': 'password'}, help_text="密码", label="密码", write_only=True,
+    )
+
+    # 修改密码，之前是明文
+    # def create(self, validated_data):
+    #     user = super(UserRegSerializer, self).create(validated_data=validated_data)
+    #     user.set_password(validated_data["password"])
+    #     user.save()
+    #     return user
+
     def validate_code(self, code):
         # 在ModelSerializer中, self.initial_data为用户前端传进来的值, 这里username等价于mobile
         verify_recodes = VerifyCode.objects.filter(mobile=self.initial_data['username']).order_by("-add_time")
         if verify_recodes:
             last_records = verify_recodes[0]
             five_mintes_ago = datetime.now() - timedelta(hours=0, minutes=5, seconds=0)
-            if five_mintes_ago < last_records.add_time:
+            if five_mintes_ago > last_records.add_time:
                 raise serializers.ValidationError("验证码过期")
 
             if last_records.code != code:
@@ -79,4 +91,4 @@ class UserRegSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         # 这里的User用的是userProfile 继承的是Django自带的User username是必填字段
-        fields = ("username", "code", "mobile")
+        fields = ("username", "code", "mobile", "password")

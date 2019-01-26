@@ -22,7 +22,7 @@ from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 
 from goods.views import GoodsListViewset, CategoryViewset
-from users.views import SmsCodeViewset
+from users.views import SmsCodeViewset, UserViewset
 
 from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
@@ -37,6 +37,9 @@ router.register(r'categorys', CategoryViewset, base_name="categorys")
 
 # 配置短信验证码的URL
 router.register(r'codes', SmsCodeViewset, base_name="codes")
+
+# 配置用户登录注册
+router.register(r'users', UserViewset, base_name="users")
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
