@@ -6,6 +6,7 @@ import re
 from datetime import datetime, timedelta
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from rest_framework.validators import UniqueValidator
 
 from shop.settings import REGEX_MOBILE
 from .models import VerifyCode
@@ -40,8 +41,18 @@ class SmsSerializer(serializers.Serializer):
         return mobile
 
 
-class UserSerializer(serializers.ModelSerializer):
-    code = serializers.CharField(required=True, max_length=4, min_length=4)
+class UserRegSerializer(serializers.ModelSerializer):
+    # code验证码是多余字段， 不会保存到数据库中
+    code = serializers.CharField(required=True, write_only=True, max_length=4, min_length=4,label='验证码', help_text='验证码',
+                                 error_messages={
+                                    "blank": "验证码不能为空",
+                                    "required": "请输入验证码",
+                                    "max_length": "验证码格式错误",
+                                    "min_length": "验证码格式错误"
+                                 })
+
+    username = serializers.CharField(label='用户名', help_text='用户名', required=True, allow_blank=False,
+                                     validators=[UniqueValidator(queryset=User.objects.all(), message='用户已存在')])
 
     def validate_code(self, code):
         # 在ModelSerializer中, self.initial_data为用户前端传进来的值, 这里username等价于mobile
@@ -68,4 +79,4 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         # 这里的User用的是userProfile 继承的是Django自带的User username是必填字段
-        fileds = ("username", "code", "mobile")
+        fields = ("username", "code", "mobile")
