@@ -31,6 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# 用自己设置的UserProfile替换Django自带的user 
 AUTH_USER_MODEL = 'users.UserProfile'
 
 # Application definition
