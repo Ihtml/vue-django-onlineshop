@@ -23,7 +23,7 @@ class GoodsPagination(PageNumberPagination):
 
 
 # GenericAPIView 继承自views.APIView，并进行了一层封装
-class GoodsListViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
+class GoodsListViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     商品列表页, 分页， 搜索， 过滤， 排序
     """
