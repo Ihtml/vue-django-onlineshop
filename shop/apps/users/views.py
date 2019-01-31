@@ -5,10 +5,12 @@ from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from rest_framework.mixins import CreateModelMixin
+from rest_framework import mixins
 from rest_framework import viewsets
 from .serializers import SmsSerializer, UserRegSerializer
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import permissions
 from random import choice
 from shop.settings import APIKEY
 from utils.yunpian import YunPian
@@ -82,12 +84,14 @@ class SmsCodeViewset(CreateModelMixin, viewsets.GenericViewSet):
             }, status=status.HTTP_201_CREATED)
 
 
-class UserViewset(CreateModelMixin, viewsets.GenericViewSet):
+class UserViewset(CreateModelMixin, viewsets.GenericViewSet, mixins.RetrieveModelMixin):
     """
     用户注册
     """
     serializer_class = UserRegSerializer
-    queryset = User.objects.all()
+    queryset = User.objects.all(permissions.IsAuthenticated, )
+
+    # permission_classes = (permissions.IsAuthenticated,)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -102,7 +106,10 @@ class UserViewset(CreateModelMixin, viewsets.GenericViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
 
+    # 重写get_object方法 可以返回当前用户
+    def get_object(self):
+        return self.request.user
+
     def perform_create(self, serializer):
         return serializer.save()
-
 
