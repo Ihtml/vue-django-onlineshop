@@ -12,7 +12,7 @@ from .models import UserFav
 from .serializers import UserFavSerializer
 
 
-class UserFavViewset(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
+class UserFavViewset(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.DestroyModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     用户收藏功能，删除发delete请求 /userfavs/1/
     """
@@ -20,6 +20,8 @@ class UserFavViewset(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.Dest
     serializer_class = UserFavSerializer
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    # RetrieveModelMixin 设置根据goods id去查找该商品用户有没有收藏
+    lookup_field = "goods_id"
 
     # 重载get_queryset方法,只能获取到当前用户的UserFav
     def get_queryset(self):
