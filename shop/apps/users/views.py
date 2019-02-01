@@ -7,10 +7,12 @@ from django.db.models import Q
 from rest_framework.mixins import CreateModelMixin
 from rest_framework import mixins
 from rest_framework import viewsets
-from .serializers import SmsSerializer, UserRegSerializer
+from .serializers import SmsSerializer, UserRegSerializer, UserDetailSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
+from rest_framework import authentication
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from random import choice
 from shop.settings import APIKEY
 from utils.yunpian import YunPian
@@ -89,8 +91,16 @@ class UserViewset(CreateModelMixin, viewsets.GenericViewSet, mixins.RetrieveMode
     用户注册
     """
     serializer_class = UserRegSerializer
-    queryset = User.objects.all(permissions.IsAuthenticated, )
+    queryset = User.objects.all()
+    authentication_classes = (JSONWebTokenAuthentication, authentication.SessionAuthentication)
 
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return UserDetailSerializer
+        elif self.action == "create":
+            return UserRegSerializer
+
+        return UserDetailSerializer
     # permission_classes = (permissions.IsAuthenticated,)
 
     def create(self, request, *args, **kwargs):

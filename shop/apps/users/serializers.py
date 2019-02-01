@@ -41,6 +41,15 @@ class SmsSerializer(serializers.Serializer):
         return mobile
 
 
+class UserDetailSerializer(serializers.ModelSerializer):
+    """
+    用户详情序列化类
+    """
+    class Meta:
+        model = User
+        fields = ("name", "gender", "birthday", "email", "mobile")
+
+
 class UserRegSerializer(serializers.ModelSerializer):
     # code验证码是多余字段， 不会保存到数据库中
     # write_only设置为 True 可确保在更新或创建实例时可以使用该字段，但在序列化表示时不包括该字段
